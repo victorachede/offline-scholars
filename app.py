@@ -1,27 +1,18 @@
 """
 Offline Scholars — main application entry point.
-Launches a Gradio UI with three tabs: Translator, Study Assistant, Voice.
+Launches a Gradio UI with two tabs: Study Assistant, Voice.
 Runs fully offline at http://localhost:7860
 """
 
 import gradio as gr
-from src.translator.translator import TivTranslator
 from src.study_assistant.assistant import StudyAssistant
 from src.voice.transcriber import VoiceTranscriber
 
 # Lazy-load models so startup is fast
-translator = TivTranslator()
 assistant = StudyAssistant()
 transcriber = VoiceTranscriber()
 
 SUBJECTS = ["Physics", "Mathematics", "English", "Chemistry", "Biology", "Government", "Economics", "Literature"]
-
-
-# ── Translator UI ────────────────────────────────────────────────────────────
-def translate(text: str, direction: str) -> str:
-    if not text.strip():
-        return ""
-    return translator.translate(text, direction)
 
 
 # ── Study Assistant UI ───────────────────────────────────────────────────────
@@ -61,34 +52,7 @@ with gr.Blocks(
 
     with gr.Tabs():
 
-        # ── Tab 1: Tiv Translator ────────────────────────────────────────────
-        with gr.Tab("Tiv Translator"):
-            gr.Markdown("### English ↔ Tiv Translation\nFirst publicly available neural machine translation model for the Tiv language (~4M speakers, Benue State).")
-            with gr.Row():
-                with gr.Column():
-                    tiv_input = gr.Textbox(label="Input text", placeholder="Type English or Tiv here...", lines=4)
-                    tiv_direction = gr.Radio(
-                        choices=["en→tiv", "tiv→en"],
-                        value="en→tiv",
-                        label="Direction",
-                    )
-                    tiv_btn = gr.Button("Translate", variant="primary")
-                with gr.Column():
-                    tiv_output = gr.Textbox(label="Translation", lines=4, interactive=False, elem_classes="output-text")
-
-            tiv_btn.click(translate, inputs=[tiv_input, tiv_direction], outputs=tiv_output)
-            tiv_input.submit(translate, inputs=[tiv_input, tiv_direction], outputs=tiv_output)
-
-            gr.Examples(
-                examples=[
-                    ["Good morning, how are you?", "en→tiv"],
-                    ["The water is cold today.", "en→tiv"],
-                    ["A jôron u sha?", "tiv→en"],
-                ],
-                inputs=[tiv_input, tiv_direction],
-            )
-
-        # ── Tab 2: JAMB Study Assistant ──────────────────────────────────────
+        # ── Tab 1: JAMB Study Assistant ──────────────────────────────────────
         with gr.Tab("JAMB Study Assistant"):
             gr.Markdown("### Offline JAMB/WAEC/NECO Tutor\nAsk any question about your subjects. Explains concepts, past exam questions, and common traps.")
             with gr.Row():
@@ -119,7 +83,7 @@ with gr.Blocks(
                 inputs=[study_input, study_subject],
             )
 
-        # ── Tab 3: Voice Transcriber ─────────────────────────────────────────
+        # ── Tab 2: Voice Transcriber ─────────────────────────────────────────
         with gr.Tab("Voice Transcriber"):
             gr.Markdown("### Offline Speech to Text\nRecord your voice and get a transcript. Works for English, Hausa, Yoruba, and Igbo.")
             with gr.Row():
@@ -141,7 +105,7 @@ with gr.Blocks(
 
     gr.Markdown("""
     ---
-    Built by **Victor** (Black Sheep Co) · [asktc.live](https://asktc.live) · [HuggingFace](https://huggingface.co/victorachede/tiv-translator)
+    Built by **Victor** (Black Sheep Co) · [asktc.live](https://asktc.live)
 
     *Submitted for the Africa Deep Tech Challenge 2026*
     """)
