@@ -131,10 +131,7 @@ Offline Scholars costs nothing after setup. It works in a village with no data. 
 
 ## About
 
-Built by **Victor** (Black Sheep Co, Nigeria).
-
-- ASKTC — [asktc.live](https://asktc.live)
-- HuggingFace — [victorachede](https://huggingface.co/victorachede)
+Built and maintained by **Victor Achede**.
 
 ---
 
@@ -145,3 +142,5 @@ MIT — use it, fork it, build on it.
 ---
 
 *Submitted for the Africa Deep Tech Challenge 2026 · Deadline: August 25, 2026*
+
+
