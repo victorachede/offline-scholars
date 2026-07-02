@@ -2,7 +2,7 @@
 
 ## Overview
 
-Naija Offline AI is a three-module Python application with a Gradio web UI. All inference runs on CPU using quantized models. No network calls after the initial model download.
+Offline Scholars is a three-module Python application with a Gradio web UI. All inference runs on CPU using quantized models. No network calls after the initial model download.
 
 ## Module 1: Tiv Translator
 

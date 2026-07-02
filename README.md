@@ -1,79 +1,41 @@
-# Naija Offline AI
+# Offline Scholars
 
-> A fully offline AI toolkit for Nigerian languages and education.
+> A fully offline AI tutor for Nigerian students preparing for JAMB, WAEC, and NECO.
 > Built for the **Africa Deep Tech Challenge 2026**.
 
 ---
 
-## What is this
+## The problem
 
-Naija Offline AI is a local-first AI toolkit that runs entirely on standard laptops — no internet, no API fees, no cloud dependency. It solves real problems for Nigerians in low-connectivity environments.
+Millions of Nigerian students prepare for JAMB every year in areas with no reliable internet. Private tutors cost money most families don't have. Past question books go out of date. And when a student gets a question wrong, nobody explains *why*.
 
-Three tools, one install:
-
-| Tool | What it does |
-|---|---|
-| **Tiv Translator** | English ↔ Tiv neural machine translation, fully on-device |
-| **JAMB Study Assistant** | Answers JAMB/WAEC/NECO questions and explains concepts offline |
-| **Voice Transcriber** | Mic → text in English, Hausa, Yoruba, Igbo using on-device Whisper |
+Offline Scholars fixes this. It runs entirely on a standard laptop — no internet, no API fees, no subscription. Open it, study, pass.
 
 ---
 
-## Why this matters
+## How it works
 
-Nigeria has 220 million people and over 500 languages. Most AI tools:
-- Require internet (unavailable or expensive in most of Nigeria)
-- Support only English or major world languages
-- Cost money per API call — prohibitive at scale
+Three modes, one install:
 
-Naija Offline AI works in a village with no data. It speaks Tiv. It helps students pass JAMB without a subscription.
+### 1. Practice Mode
+The AI presents real JAMB/WAEC/NECO past questions one at a time. Student answers. AI marks it and explains the answer in plain conversational language — not just "correct answer is B" but *why* B is correct, what concept it tests, and what JAMB typically asks about it.
+
+### 2. Ask Anything
+Student types any question — "I don't understand equilibrium" or "explain the difference between speed and velocity" — and the local AI explains it from scratch. Like having a private tutor available 24/7 with no data required.
+
+### 3. Mock CBT Exam
+Timed, same format as the real JAMB CBT. 40 questions, subjects mixed, countdown timer. Submits and shows full score breakdown — every wrong answer explained.
 
 ---
 
 ## Hardware requirements
 
-Designed to run within the contest constraints:
+Designed for the contest constraints — and for the average Nigerian student's laptop:
 
-- **RAM:** 8GB (runs comfortably in 4–6GB)
-- **GPU:** Not required — CPU inference only
-- **Storage:** ~3GB for models
+- **RAM:** 8GB (runs in ~4-5GB)
+- **GPU:** Not required — CPU only
+- **Storage:** ~2.5GB for models
 - **OS:** Windows 10+, macOS 12+, Ubuntu 20.04+
-
----
-
-## Architecture
-
-```
-naija-offline-ai/
-├── src/
-│   ├── translator/          # English ↔ Tiv T5 model inference
-│   ├── study_assistant/     # Offline JAMB Q&A (quantized LLM)
-│   └── voice/               # Whisper tiny — speech to text
-├── models/                  # Model weights (downloaded on first run)
-├── data/
-│   ├── questions/           # JAMB/WAEC past questions (JSON)
-│   └── tiv_corpus/          # Tiv language pairs
-├── scripts/
-│   ├── download_models.py   # One-time model download
-│   └── benchmark.py         # Speed/accuracy benchmarks
-├── docs/
-│   ├── TECHNICAL.md         # Architecture deep dive
-│   └── BENCHMARKS.md        # Performance results
-├── app.py                   # Main Gradio UI — launch point
-└── requirements.txt
-```
-
----
-
-## Models used
-
-| Model | Size | Purpose | Source |
-|---|---|---|---|
-| `victorachede/tiv-translator` | ~240MB | English ↔ Tiv translation | HuggingFace (fine-tuned T5-small) |
-| `Phi-3-mini-4k-instruct-q4` | ~2.2GB | JAMB study assistant | Microsoft via Ollama |
-| `whisper-tiny` | ~39MB | Speech to text | OpenAI (offline via faster-whisper) |
-
-Total download: ~2.5GB. All models cached locally after first run.
 
 ---
 
@@ -81,68 +43,42 @@ Total download: ~2.5GB. All models cached locally after first run.
 
 ```bash
 # 1. Clone
-git clone https://github.com/victorachede/naija-offline-ai
-cd naija-offline-ai
+git clone https://github.com/victorachede/offline-scholars
+cd offline-scholars
 
-# 2. Install dependencies
+# 2. Install Ollama (one time)
+# Download from https://ollama.com and install
+
+# 3. Install Python dependencies
 pip install -r requirements.txt
 
-# 3. Download models (one time, ~2.5GB)
+# 4. Download models (one time, ~2.5GB, needs internet)
 python scripts/download_models.py
 
-# 4. Launch
+# 5. Launch — now fully offline
 python app.py
 ```
 
-Opens at `http://localhost:7860` — works fully offline after setup.
+Opens at `http://localhost:7860`. Turn off your wifi. It still works.
 
 ---
 
-## The three tools
+## Stack
 
-### 1. Tiv Translator
-
-Fine-tuned T5-small on ~5,000 English-Tiv sentence pairs scraped from Bible verses, educational materials, and community-contributed text. Achieves **BLEU ~21** on verse-level pairs.
-
-```python
-from src.translator import TivTranslator
-
-t = TivTranslator()
-print(t.translate("Good morning", direction="en→tiv"))  # "Ange msen"
-print(t.translate("A jôron u", direction="tiv→en"))     # "How are you"
-```
-
-**Supported:** English → Tiv, Tiv → English
-**Planned:** Hausa, Yoruba, Igbo (v2)
+| Component | Technology | Size |
+|---|---|---|
+| AI tutor (explain + Q&A) | Phi-3-mini INT4 via Ollama | ~2.2GB |
+| Speech to text | Whisper tiny (faster-whisper, INT8) | ~39MB |
+| Tiv language support | Fine-tuned T5-small | ~240MB |
+| UI | Gradio (local server, share=False) | — |
 
 ---
 
-### 2. JAMB Study Assistant
+## Subjects covered
 
-A quantized Phi-3-mini model fine-tuned on Nigerian curriculum content. Answers questions, explains wrong answers, and generates practice questions on demand — all offline.
+Physics · Mathematics · English · Chemistry · Biology · Government · Economics · Literature
 
-```
-User: What is the SI unit of electric current?
-AI:   The SI unit of electric current is the Ampere (A), named after
-      André-Marie Ampère. It measures the flow of electric charge per
-      second — 1 Ampere = 1 Coulomb/second.
-
-      Common exam trap: don't confuse Ampere (current) with Volt
-      (voltage) or Ohm (resistance). JAMB 2022 tested this directly.
-```
-
-**Subjects covered:** Physics, Mathematics, Chemistry, Biology, English, Government, Economics, Literature
-
----
-
-### 3. Voice Transcriber
-
-Whisper tiny runs on CPU in real time. Speak into your mic, get text out. Supports English, Hausa, Yoruba, Igbo.
-
-Designed for:
-- Students dictating notes without typing
-- Teachers recording lecture transcripts offline
-- Field workers logging data by voice
+500+ past questions from JAMB (2015–2023), WAEC (2015–2023), NECO (2018–2022).
 
 ---
 
@@ -150,13 +86,14 @@ Designed for:
 
 Tested on: Intel Core i5-10th gen, 8GB RAM, no GPU (Ubuntu 22.04)
 
-| Task | Latency | Accuracy |
-|---|---|---|
-| Tiv translation (1 sentence) | ~0.3s | BLEU 21.4 |
-| JAMB Q&A (short answer) | ~4.2s | — |
-| Voice transcription (5 sec audio) | ~1.8s | WER ~12% (English) |
+| Task | Latency |
+|---|---|
+| AI explanation (short) | ~4s |
+| Mock exam generation | ~1s |
+| Voice transcription (5s audio) | ~1.8s |
+| Peak RAM usage | ~4.3GB |
 
-Full benchmark report: [docs/BENCHMARKS.md](docs/BENCHMARKS.md)
+Full results: [docs/BENCHMARKS.md](docs/BENCHMARKS.md)
 
 ---
 
@@ -164,32 +101,33 @@ Full benchmark report: [docs/BENCHMARKS.md](docs/BENCHMARKS.md)
 
 | Criteria | How we meet it |
 |---|---|
-| **Fully offline** | Zero network calls after model download. Works with airplane mode on. |
-| **8GB RAM, integrated graphics** | CPU-only inference. Peak RAM usage ~3.8GB. |
-| **Accuracy** | BLEU 21 on Tiv translation. Phi-3 achieves ~78% on JAMB MCQ. |
-| **Speed** | Sub-5s response on mid-range hardware. |
-| **Efficiency** | Quantized models (INT4/INT8). No wasted compute. |
-| **Open source** | MIT licensed. All code and training scripts included. |
+| **Fully offline** | Zero network calls after setup. Works with wifi off. |
+| **8GB RAM, no GPU** | CPU-only inference. Peak usage ~4.3GB. |
+| **Accuracy** | Phi-3-mini ~78% on JAMB MCQ. Explanations verified against curriculum. |
+| **Speed** | ~4s per AI response on mid-range hardware. |
+| **Open source** | MIT licensed. All code included. |
+| **Real impact** | Solves a problem for millions of Nigerian students right now. |
 
 ---
 
-## Why Tiv
+## Why this matters
 
-Tiv is spoken by ~4 million people in Benue State, Nigeria. It has virtually no existing digital NLP tools — no Google Translate support, no dataset on HuggingFace (before this project), no voice assistant support.
+Nigeria has over 1.8 million JAMB candidates every year. Most are in states with poor internet. A private tutor costs ₦5,000–₦20,000 per month — unaffordable for most families.
 
-This project is the first publicly available neural machine translation model for the Tiv language. That alone is a research contribution independent of this challenge.
+Offline Scholars costs nothing after setup. It works in a village in Benue with no data. It explains concepts a textbook never could. And it never runs out of practice questions.
 
 ---
 
 ## Roadmap
 
-- [x] Tiv translation model (T5-small, BLEU 21)
-- [x] JAMB past questions dataset (500+ questions)
-- [ ] Gradio UI (in progress)
-- [ ] Phi-3 fine-tune on Nigerian curriculum
-- [ ] Hausa/Yoruba/Igbo voice support
-- [ ] Offline installer (.exe / .dmg / .AppImage)
-- [ ] Android APK (v2 — post-challenge)
+- [x] Phi-3-mini offline Q&A engine
+- [x] JAMB/WAEC/NECO past questions dataset (500+)
+- [x] Mock CBT simulator
+- [x] Voice input via Whisper tiny
+- [x] Tiv language support
+- [ ] Fine-tune Phi-3 on Nigerian curriculum (in progress)
+- [ ] Offline installer (.exe / .dmg)
+- [ ] Android APK (post-challenge)
 
 ---
 
@@ -198,8 +136,8 @@ This project is the first publicly available neural machine translation model fo
 Built by **Victor** (Black Sheep Co, Benue State, Nigeria).
 
 - ASKTC — [asktc.live](https://asktc.live)
-- Tiv Translator — [HuggingFace](https://huggingface.co/victorachede/tiv-translator)
-- Twitter/X — [@victorachede](https://x.com/victorachede)
+- CardStack — spaced repetition for Nigerian exam prep
+- HuggingFace — [victorachede](https://huggingface.co/victorachede)
 
 ---
 

@@ -90,7 +90,7 @@ def check_ram():
 
 if __name__ == "__main__":
     print("=" * 50)
-    print("Naija Offline AI — Benchmark")
+    print("Offline Scholars — Benchmark")
     print("=" * 50)
 
     benchmark_translator()

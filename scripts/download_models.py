@@ -44,7 +44,7 @@ def download_phi3():
 
 if __name__ == "__main__":
     print("=" * 50)
-    print("Naija Offline AI — Model Setup")
+    print("Offline Scholars — Model Setup")
     print("=" * 50)
 
     MODELS_DIR.mkdir(exist_ok=True)

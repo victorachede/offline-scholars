@@ -1,5 +1,5 @@
 """
-Naija Offline AI — main application entry point.
+Offline Scholars — main application entry point.
 Launches a Gradio UI with three tabs: Translator, Study Assistant, Voice.
 Runs fully offline at http://localhost:7860
 """
@@ -44,7 +44,7 @@ def transcribe_audio(audio, language: str) -> str:
 
 # ── Build UI ─────────────────────────────────────────────────────────────────
 with gr.Blocks(
-    title="Naija Offline AI",
+    title="Offline Scholars",
     theme=gr.themes.Soft(primary_hue="green"),
     css="""
     .tab-nav button { font-weight: 600; }
@@ -54,9 +54,9 @@ with gr.Blocks(
 ) as app:
 
     gr.Markdown("""
-    # 🇳🇬 Naija Offline AI
-    **Fully offline AI for Nigerian languages and education.**
-    No internet required · No API fees · Runs on your laptop
+    # 🇳🇬 Offline Scholars
+    **Fully offline AI tutor for Nigerian exam prep.**
+    JAMB · WAEC · NECO · No internet required · No API fees
     """)
 
     with gr.Tabs():
