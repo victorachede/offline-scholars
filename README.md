@@ -34,7 +34,7 @@ Designed for the contest constraints — and for the average Nigerian student's 
 
 - **RAM:** 8GB (runs in ~4-5GB)
 - **GPU:** Not required — CPU only
-- **Storage:** ~2.5GB for models
+- **Storage:** ~2.3GB for models
 - **OS:** Windows 10+, macOS 12+, Ubuntu 20.04+
 
 ---
@@ -52,7 +52,7 @@ cd offline-scholars
 # 3. Install Python dependencies
 pip install -r requirements.txt
 
-# 4. Download models (one time, ~2.5GB, needs internet)
+# 4. Download models (one time, ~2.3GB, needs internet)
 python scripts/download_models.py
 
 # 5. Launch — now fully offline
@@ -69,7 +69,6 @@ Opens at `http://localhost:7860`. Turn off your wifi. It still works.
 |---|---|---|
 | AI tutor (explain + Q&A) | Phi-3-mini INT4 via Ollama | ~2.2GB |
 | Speech to text | Whisper tiny (faster-whisper, INT8) | ~39MB |
-| Tiv language support | Fine-tuned T5-small | ~240MB |
 | UI | Gradio (local server, share=False) | — |
 
 ---
@@ -114,7 +113,7 @@ Full results: [docs/BENCHMARKS.md](docs/BENCHMARKS.md)
 
 Nigeria has over 1.8 million JAMB candidates every year. Most are in states with poor internet. A private tutor costs ₦5,000–₦20,000 per month — unaffordable for most families.
 
-Offline Scholars costs nothing after setup. It works in a village in Benue with no data. It explains concepts a textbook never could. And it never runs out of practice questions.
+Offline Scholars costs nothing after setup. It works in a village with no data. It explains concepts a textbook never could. And it never runs out of practice questions.
 
 ---
 
@@ -124,7 +123,6 @@ Offline Scholars costs nothing after setup. It works in a village in Benue with 
 - [x] JAMB/WAEC/NECO past questions dataset (500+)
 - [x] Mock CBT simulator
 - [x] Voice input via Whisper tiny
-- [x] Tiv language support
 - [ ] Fine-tune Phi-3 on Nigerian curriculum (in progress)
 - [ ] Offline installer (.exe / .dmg)
 - [ ] Android APK (post-challenge)
@@ -133,10 +131,9 @@ Offline Scholars costs nothing after setup. It works in a village in Benue with 
 
 ## About
 
-Built by **Victor** (Black Sheep Co, Benue State, Nigeria).
+Built by **Victor** (Black Sheep Co, Nigeria).
 
 - ASKTC — [asktc.live](https://asktc.live)
-- CardStack — spaced repetition for Nigerian exam prep
 - HuggingFace — [victorachede](https://huggingface.co/victorachede)
 
 ---
