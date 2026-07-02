@@ -4,36 +4,9 @@ Run: python scripts/benchmark.py
 """
 
 import time
-import json
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
-
-
-def benchmark_translator():
-    print("\n── Tiv Translator ──────────────────────────────")
-    from src.translator.translator import TivTranslator
-    t = TivTranslator()
-
-    test_pairs = [
-        ("Good morning", "en→tiv"),
-        ("The sun rises in the east", "en→tiv"),
-        ("A jôron u", "tiv→en"),
-        ("Ange msen", "tiv→en"),
-        ("Water is life", "en→tiv"),
-    ]
-
-    times = []
-    for text, direction in test_pairs:
-        start = time.time()
-        result = t.translate(text, direction)
-        elapsed = time.time() - start
-        times.append(elapsed)
-        print(f"  [{direction}] '{text}' → '{result}' ({elapsed:.2f}s)")
-
-    avg = sum(times) / len(times)
-    print(f"\n  Average latency: {avg:.2f}s")
-    print(f"  Min: {min(times):.2f}s | Max: {max(times):.2f}s")
 
 
 def benchmark_study_assistant():
@@ -93,7 +66,6 @@ if __name__ == "__main__":
     print("Offline Scholars — Benchmark")
     print("=" * 50)
 
-    benchmark_translator()
     benchmark_study_assistant()
     benchmark_voice()
     check_ram()
