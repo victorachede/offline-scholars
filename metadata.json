@@ -1,0 +1,37 @@
+{
+  "team_id": "offline-scholars-ng",
+  "domain": "healthcare_medical",
+  "language_scope": ["en", "ha", "yo", "ig"],
+  "african_alpha_claim": true,
+  "budget_laptop_claim": true,
+  "submitter": {
+    "name": "Victor Achede",
+    "email": "colepalmerx6@gmail.com",
+    "github_handle": "victorachede"
+  },
+  "cross_disciplinary_pairing": {
+    "discipline": "education",
+    "load_bearing": true,
+    "description": "Offline AI tutor for Nigerian secondary school students preparing for JAMB, WAEC, and NECO exams. Runs fully on CPU with no internet required — targeting the 1.8 million annual JAMB candidates in areas with poor or no connectivity."
+  },
+  "test_prompts": [
+    {
+      "prompt_id": "tp_001",
+      "prompt": "A JAMB Physics question: A stone is thrown vertically upward with an initial velocity of 20 m/s. Calculate the maximum height reached and the time taken to reach it. (g = 10 m/s²). Explain the concept tested and show the working."
+    },
+    {
+      "prompt_id": "tp_002",
+      "prompt": "Explain the process of photosynthesis as it would appear in a WAEC Biology exam. Include the light-dependent and light-independent reactions, name the products, and mention one common exam trap students fall into."
+    }
+  ],
+  "model": {
+    "name": "Phi-3-mini-4k-instruct-Q4_K_M",
+    "runtime": "llama.cpp",
+    "quantization": "GGUF Q4_K_M",
+    "parameters_estimate": "3.8B",
+    "packaging": "binary_bundle"
+  },
+  "_runtime": {
+    "model_path": "model/Phi-3-mini-4k-instruct-Q4_K_M.gguf"
+  }
+}
