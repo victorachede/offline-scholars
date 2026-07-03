@@ -1,10 +1,20 @@
+# Model weights — never commit
+model/
+*.gguf
 models/
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
-.env
-.DS_Store
 *.egg-info/
 dist/
 build/
+
+# Environment
+.env
+.DS_Store
 .gradio/
+
+# ADTC profiler output
+submission.json
